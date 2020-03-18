@@ -19,7 +19,7 @@ import java.util.List;
  *
  * Notes:
  * - Sum of size of bucket elements in {@link ShuffleDistributor#distribute(List)} ()} must not exceed sizePerBucket*buckets
- * - Single bucket cannot be bigger than sizePerBucket (if so, it should be capped by using {@link BucketDistributor#capAtSizePerBucket(List) before})
+ * - Single bucket cannot be bigger than sizePerBucket (if so, it should be capped by using {@link BucketDistributor#capAtSizePerBucket(List)} before)
  */
 public class ShuffleDistributor<T> extends BucketDistributor<T> {
 
