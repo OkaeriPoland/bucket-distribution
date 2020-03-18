@@ -3,7 +3,7 @@ package eu.okaeri.bdistribution;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class Bucket<T> implements Iterable {
+public class Bucket<T> implements Iterable<T> {
 
     private final List<T> elements;
 
@@ -32,8 +32,7 @@ public class Bucket<T> implements Iterable {
     }
 
     @Override
-    public void forEach(Consumer consumer) {
-        //noinspection unchecked
+    public void forEach(Consumer<? super T> consumer) {
         this.elements.forEach(consumer::accept);
     }
 

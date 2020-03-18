@@ -6,7 +6,7 @@ import java.util.Spliterator;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
 
-public class Distribution<T> implements Iterable {
+public class Distribution<T> implements Iterable<Bucket<T>> {
 
     private final List<Bucket<T>> buckets;
     private final boolean balanced;
@@ -38,8 +38,7 @@ public class Distribution<T> implements Iterable {
     }
 
     @Override
-    public void forEach(Consumer consumer) {
-        //noinspection unchecked
+    public void forEach(Consumer<? super Bucket<T>> consumer) {
         this.buckets.forEach(consumer::accept);
     }
 
