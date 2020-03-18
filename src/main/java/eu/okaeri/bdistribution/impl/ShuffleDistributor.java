@@ -13,7 +13,7 @@ import java.util.List;
  * by shuffling input until it gets list that fits fully
  * into desired buckets.
  *
- * ShuffleDistributor(buckets=4, sizePerBucket=4)
+ * ShuffleDistributor(buckets=3, sizePerBucket=4)
  * 1, 4, 1, 1, 1, 2, 2 -> [1+4=5] (invalid, exceeds sizePerBucket, shuffle)
  * 1, 1, 1, 1, 2, 2, 4 -> [1, 1, 1, 1] and [2, 2] and [4]
  *
