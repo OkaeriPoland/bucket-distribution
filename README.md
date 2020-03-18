@@ -31,4 +31,4 @@ List<Bucket<String>> capped = distributor.capAtSizePerBucket(buckets);
 ```
 
 ### Available implementations:
-- ShuffleDistributor: distribution by brute-forcing valid configurations (suitable for small groups of elements)
+- ShuffleDistributor: distribution by brute-forcing valid configurations (suitable for small groups of elements) [(detailed description)](https://github.com/OkaeriPoland/bucket-distribution/blob/master/src/main/java/eu/okaeri/bdistribution/impl/ShuffleDistributor.java#L11-L23)
