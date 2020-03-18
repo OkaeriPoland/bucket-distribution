@@ -17,6 +17,7 @@ buckets.add(new Bucket<>(Arrays.asList("Player8", "Player9")));
 buckets.add(new Bucket<>(Arrays.asList("Player10", "Player11", "Player12", "Player13", "Player14", "Player15", "Player16")));
 
 List<Bucket<String>> capped = distributor.capAtSizePerBucket(buckets);
+Distribution<String> distribution = distributor.distribute(capped);
 //
 // Example output
 //
