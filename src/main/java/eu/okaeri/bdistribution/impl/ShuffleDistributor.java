@@ -23,13 +23,26 @@ import java.util.List;
  */
 public class ShuffleDistributor<T> extends BucketDistributor<T> {
 
+    private final int maxTries;
+
     public ShuffleDistributor(int buckets, int sizePerBucket) {
         super(buckets, sizePerBucket);
+        this.maxTries = this.getMaxCapacity() * 100;
+    }
+
+    public ShuffleDistributor(int buckets, int sizePerBucket, int maxTries) {
+        super(buckets, sizePerBucket);
+        this.maxTries = maxTries;
+    }
+
+    public int getMaxTries() {
+        return this.maxTries;
     }
 
     @Override
     public Distribution<T> distribute(List<Bucket<T>> elements) {
 
+        long start = System.currentTimeMillis();
         // clone, because who knows what input is
         elements = new ArrayList<>(elements);
 
@@ -55,9 +68,16 @@ public class ShuffleDistributor<T> extends BucketDistributor<T> {
         int total = 0;
         int i = 0;
         int current = 0;
+        int iterationCount = 0;
 
         // fill buckets by brute-forcing
         for (; i < elements.size(); i++) {
+
+            // limit iteration count
+            iterationCount++;
+            if (iterationCount >= this.getMaxTries()) {
+                throw new ShuffleIterationLimitException("ShuffleDistributor was unable to distribute elements (" + elements + ") in " + this.getMaxTries() + " tries");
+            }
 
             Bucket<T> bucket = elements.get(i);
             Integer bucketSize = bucket.size();
