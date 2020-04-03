@@ -12,24 +12,36 @@ import java.util.List;
  * ShuffleDistributor distributes elements into the buckets
  * by shuffling input until it gets list that fits fully
  * into desired buckets.
- *
+ * <p>
  * ShuffleDistributor(buckets=3, sizePerBucket=4)
  * 1, 4, 1, 1, 1, 2, 2 -> [1+4=5] (invalid, exceeds sizePerBucket, shuffle)
  * 1, 1, 1, 1, 2, 2, 4 -> [1, 1, 1, 1] and [2, 2] and [4]
- *
+ * <p>
  * Notes:
  * - Sum of size of bucket elements in {@link ShuffleDistributor#distribute(List)} ()} must not exceed sizePerBucket*buckets
  * - Single bucket cannot be bigger than sizePerBucket (if so, it should be capped by using {@link BucketDistributor#capAtSizePerBucket(List)} before)
+ * - Some input elements cannot be sorted into desired bucket size, therefore maxTries limit was introduced,
+ *   distributor will throw {@link ShuffleIterationLimitException} when specified limit of iterations is reached.
+ *   By default maxTries is calculated using the following formula: buckets * sizePerBucket * 100.
  */
 public class ShuffleDistributor<T> extends BucketDistributor<T> {
 
     private final int maxTries;
 
+    /**
+     * @param buckets       Amount of target buckets
+     * @param sizePerBucket Size of single target bucket
+     */
     public ShuffleDistributor(int buckets, int sizePerBucket) {
         super(buckets, sizePerBucket);
         this.maxTries = this.getMaxCapacity() * 100;
     }
 
+    /**
+     * @param buckets       Amount of target buckets
+     * @param sizePerBucket Size of single target bucket
+     * @param maxTries      Limit of shuffle iterations
+     */
     public ShuffleDistributor(int buckets, int sizePerBucket, int maxTries) {
         super(buckets, sizePerBucket);
         this.maxTries = maxTries;
@@ -42,7 +54,6 @@ public class ShuffleDistributor<T> extends BucketDistributor<T> {
     @Override
     public Distribution<T> distribute(List<Bucket<T>> elements) {
 
-        long start = System.currentTimeMillis();
         // clone, because who knows what input is
         elements = new ArrayList<>(elements);
 
