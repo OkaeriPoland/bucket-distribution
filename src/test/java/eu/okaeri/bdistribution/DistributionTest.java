@@ -1,6 +1,7 @@
 package eu.okaeri.bdistribution;
 
 import eu.okaeri.bdistribution.impl.ShuffleDistributor;
+import eu.okaeri.bdistribution.impl.ShuffleIterationLimitException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,6 +24,26 @@ public class DistributionTest {
     }
 
     @Test
+    public void testDistribution_impossible_to_shuffle() {
+
+        BucketDistributor<String> distributor = new ShuffleDistributor<>(4, 4);
+        List<Bucket<String>> buckets = new ArrayList<>();
+
+        buckets.add(new Bucket<>(Arrays.asList("Player1", "Player2", "Player3")));
+        buckets.add(new Bucket<>(Arrays.asList("Player4", "Player5", "Player6")));
+        buckets.add(new Bucket<>(Arrays.asList("Player7", "Player8", "Player9")));
+        buckets.add(new Bucket<>(Arrays.asList("Player10", "Player11", "Player12")));
+        buckets.add(new Bucket<>(Arrays.asList("Player13", "Player14", "Player15", "Player16")));
+        List<Bucket<String>> capped = distributor.capAtSizePerBucket(buckets);
+
+        try {
+            Distribution<String> distribution = distributor.distribute(capped);
+            fail("expected ShuffleIterationLimitException to be thrown");
+        } catch (ShuffleIterationLimitException ignored) {
+        }
+    }
+
+    @Test
     public void testDistribution_fours_full_with_cap() {
 
         BucketDistributor<String> distributor = new ShuffleDistributor<>(4, 4);
@@ -39,7 +60,6 @@ public class DistributionTest {
 
         List<Bucket<String>> capped = distributor.capAtSizePerBucket(buckets);
         Distribution<String> distribution = distributor.distribute(capped);
-        System.out.println(distribution);
 
         assertTrue(distribution.isBalanced());
         assertEquals(4, distribution.getBuckets().size());
