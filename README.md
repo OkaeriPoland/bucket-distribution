@@ -2,7 +2,46 @@ Bucket Distribution
 ---
 Distribute groups of elements into equal buckets.
 
-### Example
+## Installation
+
+### Maven
+
+Add repository to the `repositories` section:
+
+```xml
+
+<repository>
+    <id>okaeri-repo</id>
+    <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
+</repository>
+```
+
+Add dependency to the `dependencies` section:
+
+```xml
+
+<dependency>
+    <groupId>eu.okaeri</groupId>
+    <artifactId>bucket-distribution</artifactId>
+    <version>1.1.0</version>
+</dependency>
+```
+
+### Gradle
+
+Add repository to the `repositories` section:
+
+```groovy
+maven { url "https://storehouse.okaeri.eu/repository/maven-public/" }
+```
+
+Add dependency to the `maven` section:
+
+```groovy
+implementation 'eu.okaeri:bucket-distribution:1.1.0'
+```
+
+## Example
 
 ```java
 BucketDistributor<String> distributor = new ShuffleDistributor<>(4, 4);
@@ -32,7 +71,7 @@ Distribution<String> distribution = distributor.distribute(capped);
 //      balanced=true]
 ```
 
-### Available implementations:
+## Available implementations:
 
 - ShuffleDistributor: distribution by brute-forcing valid configurations (suitable for small groups of elements)
   [(detailed description)](https://github.com/OkaeriPoland/bucket-distribution/blob/master/src/main/java/eu/okaeri/bdistribution/impl/ShuffleDistributor.java#L11-L26)
