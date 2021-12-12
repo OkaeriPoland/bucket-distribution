@@ -1,9 +1,12 @@
 package eu.okaeri.bdistribution;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Getter
 public abstract class BucketDistributor<T> {
 
     private final int buckets;
@@ -18,18 +21,6 @@ public abstract class BucketDistributor<T> {
         this.buckets = buckets;
         this.sizePerBucket = sizePerBucket;
         this.maxCapacity = buckets * sizePerBucket;
-    }
-
-    public int getBuckets() {
-        return this.buckets;
-    }
-
-    public int getSizePerBucket() {
-        return this.sizePerBucket;
-    }
-
-    public int getMaxCapacity() {
-        return this.maxCapacity;
     }
 
     public abstract Distribution<T> distribute(List<Bucket<T>> elements);

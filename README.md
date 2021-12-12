@@ -3,6 +3,7 @@ Bucket Distribution
 Distribute groups of elements into equal buckets.
 
 ### Example
+
 ```java
 BucketDistributor<String> distributor = new ShuffleDistributor<>(4, 4);
 List<Bucket<String>> buckets = new ArrayList<>();
@@ -32,4 +33,6 @@ Distribution<String> distribution = distributor.distribute(capped);
 ```
 
 ### Available implementations:
-- ShuffleDistributor: distribution by brute-forcing valid configurations (suitable for small groups of elements) [(detailed description)](https://github.com/OkaeriPoland/bucket-distribution/blob/master/src/main/java/eu/okaeri/bdistribution/impl/ShuffleDistributor.java#L11-L26)
+
+- ShuffleDistributor: distribution by brute-forcing valid configurations (suitable for small groups of elements)
+  [(detailed description)](https://github.com/OkaeriPoland/bucket-distribution/blob/master/src/main/java/eu/okaeri/bdistribution/impl/ShuffleDistributor.java#L11-L26)
