@@ -1,10 +1,17 @@
 package eu.okaeri.bdistribution;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.*;
 import java.util.function.Consumer;
 
+@ToString
+@EqualsAndHashCode
 public class Bucket<T> implements Iterable<T> {
 
+    @Getter
     private final List<T> elements;
 
     /**
@@ -12,10 +19,6 @@ public class Bucket<T> implements Iterable<T> {
      */
     public Bucket(List<T> elements) {
         this.elements = new ArrayList<>(elements);
-    }
-
-    public List<T> getElements() {
-        return this.elements;
     }
 
     public int size() {
@@ -39,12 +42,5 @@ public class Bucket<T> implements Iterable<T> {
     @Override
     public Spliterator<T> spliterator() {
         return this.elements.spliterator();
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Bucket.class.getSimpleName() + "[", "]")
-                .add(this.elements.toString())
-                .toString();
     }
 }

@@ -1,11 +1,15 @@
 package eu.okaeri.bdistribution;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
-import java.util.StringJoiner;
 import java.util.function.Consumer;
 
+@Getter
+@ToString
 public class Distribution<T> implements Iterable<Bucket<T>> {
 
     private final List<Bucket<T>> buckets;
@@ -20,16 +24,8 @@ public class Distribution<T> implements Iterable<Bucket<T>> {
         this.balanced = balanced;
     }
 
-    public List<Bucket<T>> getBuckets() {
-        return this.buckets;
-    }
-
     public Bucket<T> get(int i) {
         return this.buckets.get(i);
-    }
-
-    public boolean isBalanced() {
-        return this.balanced;
     }
 
     @Override
@@ -45,13 +41,5 @@ public class Distribution<T> implements Iterable<Bucket<T>> {
     @Override
     public Spliterator<Bucket<T>> spliterator() {
         return this.buckets.spliterator();
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Distribution.class.getSimpleName() + "[", "]")
-                .add("buckets=" + this.buckets)
-                .add("balanced=" + this.balanced)
-                .toString();
     }
 }

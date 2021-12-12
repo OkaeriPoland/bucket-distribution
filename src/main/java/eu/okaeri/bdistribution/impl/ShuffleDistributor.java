@@ -3,6 +3,7 @@ package eu.okaeri.bdistribution.impl;
 import eu.okaeri.bdistribution.Bucket;
 import eu.okaeri.bdistribution.BucketDistributor;
 import eu.okaeri.bdistribution.Distribution;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,11 +22,12 @@ import java.util.List;
  * - Sum of size of bucket elements in {@link ShuffleDistributor#distribute(List)} ()} must not exceed sizePerBucket*buckets
  * - Single bucket cannot be bigger than sizePerBucket (if so, it should be capped by using {@link BucketDistributor#capAtSizePerBucket(List)} before)
  * - Some input elements cannot be sorted into desired bucket size, therefore maxTries limit was introduced,
- *   distributor will throw {@link ShuffleIterationLimitException} when specified limit of iterations is reached.
- *   By default maxTries is calculated using the following formula: buckets * sizePerBucket * 100.
+ * distributor will throw {@link ShuffleIterationLimitException} when specified limit of iterations is reached.
+ * By default maxTries is calculated using the following formula: buckets * sizePerBucket * 100.
  */
 public class ShuffleDistributor<T> extends BucketDistributor<T> {
 
+    @Getter
     private final int maxTries;
 
     /**
@@ -45,10 +47,6 @@ public class ShuffleDistributor<T> extends BucketDistributor<T> {
     public ShuffleDistributor(int buckets, int sizePerBucket, int maxTries) {
         super(buckets, sizePerBucket);
         this.maxTries = maxTries;
-    }
-
-    public int getMaxTries() {
-        return this.maxTries;
     }
 
     @Override
